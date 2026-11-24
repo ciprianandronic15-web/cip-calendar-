@@ -138,6 +138,73 @@
             </div>
         </div>
 
+         <!-- ================= TAB ORAR SĂPTĂMÂNAL ================= -->
+        <div id="tab-schedule" class="hidden space-y-8">
+            <div class="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-week text-indigo-600"></i> Orar Săptămânal (Conectat la Calendar)
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">Cursurile adăugate aici apar automat în fiecare săptămână în tab-ul Calendar.</p>
+                </div>
+                <button onclick="requestNotificationPermission()" class="px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-bell"></i> Activează Notificări Cursuri/Examene
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 h-fit">
+                    <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-indigo-600"></i> Adaugă în Orar
+                    </h3>
+                    <form id="schedule-form" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 mb-1">Denumire Curs / Seminar</label>
+                            <input type="text" id="sched-title" required placeholder="ex: Curs Marketing" 
+                                class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1">Ziua Săptămânii</label>
+                                <select id="sched-day" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="1">Luni</option>
+                                    <option value="2">Marți</option>
+                                    <option value="3">Miercuri</option>
+                                    <option value="4">Joi</option>
+                                    <option value="5">Vineri</option>
+                                    <option value="6">Sâmbătă</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1">Ora Începerii</label>
+                                <input type="time" id="sched-time" required class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1">Sala / Locație</label>
+                                <input type="text" id="sched-room" placeholder="ex: Amfiteatrul B1" 
+                                    class="w-full px-3.5 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1">Tip & Culoare</label>
+                                <select id="sched-color" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="bg-indigo-500">Curs (Indigo)</option>
+                                    <option value="bg-emerald-500">Seminar (Verde)</option>
+                                    <option value="bg-amber-500">Laborator (Galben)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-xl text-sm transition duration-200 shadow-md shadow-indigo-200">
+                            Salvează în Orar & Calendar
+                        </button>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4" id="schedule-grid"></div>
+            </div>
+        </div>
+
         <!-- ================= TAB 2: ATTENDANCE ================= -->
         <div id="tab-attendance" class="hidden space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
