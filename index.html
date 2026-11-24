@@ -680,7 +680,7 @@
         }
 
         window.switchTab = function(tabName) {
-            ['calendar', 'attendance', 'exams'].forEach(t => {
+            ['calendar', 'schedule', 'attendance', 'exams'].forEach(t => {
                 const el = document.getElementById(`tab-${t}`);
                 const btn = document.getElementById(`tab-btn-${t}`);
                 if (el) el.classList.add('hidden');
@@ -692,6 +692,7 @@
             if (activeBtn) activeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 bg-white text-indigo-600 shadow-sm flex items-center gap-2";
 
             if (tabName === 'calendar') renderCalendar();
+            if (tabName === 'schedule') renderScheduleModule();
             if (tabName === 'attendance') renderAttendanceModule();
             if (tabName === 'exams') renderExamsModule();
         };
