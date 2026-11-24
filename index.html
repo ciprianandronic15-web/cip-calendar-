@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <!-- STREAMING_CHUNK:Configuring document head and styles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Academic Hub - Calendar, Prezențe & Examene cu Cont & Cloud</title>
+    <title>Student Academic Hub - Calendar, Orar, Prezențe & Examene</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,7 +17,6 @@
 </head>
 <body class="bg-gradient-to-br from-slate-50 via-indigo-50/40 to-violet-50/40 min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <!-- STREAMING_CHUNK:Rendering navigation header -->
     <header class="w-full bg-white/85 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
@@ -27,17 +25,17 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Student Academic Hub</h1>
-                    <p class="text-xs text-slate-500">Cont Personal • Calendar • Prezențe • Examene</p>
+                    <p class="text-xs text-slate-500">Cont Personal • Calendar • Orar • Prezențe • Examene</p>
                 </div>
             </div>
 
             <!-- Tab Switcher -->
             <div class="flex items-center bg-slate-100 p-1.5 rounded-2xl shadow-inner gap-1 flex-wrap justify-center">
-                <button onclick="switchTab('schedule')" id="tab-btn-schedule" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 text-slate-600 hover:text-indigo-600 flex items-center gap-2">
-                    <i class="fa-solid fa-clock"></i> Orar
-                </button>
                 <button onclick="switchTab('calendar')" id="tab-btn-calendar" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 bg-white text-indigo-600 shadow-sm flex items-center gap-2">
                     <i class="fa-solid fa-calendar-days"></i> Calendar
+                </button>
+                <button onclick="switchTab('schedule')" id="tab-btn-schedule" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 text-slate-600 hover:text-indigo-600 flex items-center gap-2">
+                    <i class="fa-solid fa-clock"></i> Orar
                 </button>
                 <button onclick="switchTab('attendance')" id="tab-btn-attendance" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 text-slate-600 hover:text-indigo-600 flex items-center gap-2">
                     <i class="fa-solid fa-clipboard-user"></i> Prezențe
@@ -57,13 +55,12 @@
         </div>
     </header>
 
-    <!-- STREAMING_CHUNK:Rendering main application body -->
     <main class="max-w-7xl mx-auto px-4 py-8 w-full flex-grow">
         
         <!-- ================= TAB 1: CALENDAR ================= -->
         <div id="tab-calendar" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-3 flex flex-col sm:flex-row items-center justify-between bg-white px-6 py-4 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 gap-4">
-                <h2 id="current-month-year" class="text-lg font-bold text-slate-800">Octombrie 2026</h2>
+                <h2 id="current-month-year" class="text-lg font-bold text-slate-800">Noiembrie 2026</h2>
                 <div class="flex items-center gap-3">
                     <button id="today-btn" class="px-4 py-2 text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition duration-200 flex items-center gap-2 shadow-sm">
                         <i class="fa-solid fa-rotate-left"></i> Astăzi
@@ -99,7 +96,7 @@
                     <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
                         <div>
                             <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider">Data Selectată</span>
-                            <h3 id="selected-date-title" class="text-base font-bold text-slate-800">Luni, 13 Octombrie 2026</h3>
+                            <h3 id="selected-date-title" class="text-base font-bold text-slate-800">Marți, 24 Noiembrie 2026</h3>
                         </div>
                         <div class="bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-xl text-xs font-semibold" id="event-count-badge">0 evenimente</div>
                     </div>
@@ -138,7 +135,7 @@
             </div>
         </div>
 
-         <!-- ================= TAB ORAR SĂPTĂMÂNAL ================= -->
+        <!-- ================= TAB ORAR SĂPTĂMÂNAL ================= -->
         <div id="tab-schedule" class="hidden space-y-8">
             <div class="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
@@ -461,11 +458,11 @@
     <!-- Toast Container -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
-    <!-- STREAMING_CHUNK:Initializing Firebase Authentication and Cloud Sync logic -->
+    <!-- Firebase Authentication and Cloud Sync logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'student-academic-hub-default';
         const defaultFirebaseConfig = {
@@ -486,6 +483,7 @@
         window.currentDate = new Date();
         window.selectedDateStr = formatDateKey(new Date());
         window.events = {};
+        window.weeklySchedule = [];
         window.subjects = [];
         window.exams = [];
 
@@ -526,6 +524,7 @@
             }
 
             renderCalendar();
+            renderScheduleModule();
             renderAttendanceModule();
             renderExamsModule();
         }
@@ -588,7 +587,7 @@
                 closeAccountModal();
             } catch (err) {
                 console.error("Auth error:", err);
-                showToast("Erore: " + (err.message || "Verifică datele"), "error");
+                showToast("Eroare: " + (err.message || "Verifică datele"), "error");
             }
         };
 
@@ -609,6 +608,7 @@
                 const userId = currentUser.uid;
                 await setDoc(doc(db, 'artifacts', appId, 'users', userId, 'data', 'academic_payload'), {
                     events: window.events,
+                    weeklySchedule: window.weeklySchedule,
                     subjects: window.subjects,
                     exams: window.exams,
                     updatedAt: new Date().toISOString()
@@ -627,6 +627,7 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     window.events = data.events || {};
+                    window.weeklySchedule = data.weeklySchedule || [];
                     window.subjects = data.subjects || [];
                     window.exams = data.exams || [];
                 } else {
@@ -634,6 +635,7 @@
                     saveDataToCloud();
                 }
                 renderCalendar();
+                renderScheduleModule();
                 renderAttendanceModule();
                 renderExamsModule();
             }, (error) => {
@@ -643,25 +645,15 @@
         }
 
         function loadDataFromLocalStorage() {
-            window.events = JSON.parse(localStorage.getItem('student_calendar_events')) || {
-                '2026-10-15': [{ title: 'Curs IA Avansată', time: '10:00', color: 'bg-indigo-500', desc: 'Sala A102' }]
-            };
-            window.subjects = JSON.parse(localStorage.getItem('student_subjects')) || [
-                {
-                    id: 'sub-1', name: 'Inteligență Artificială', professor: 'Conf. Univ. Dr. Ionescu', minCount: 7,
-                    sessions: [{ id: 's1', date: '2026-10-01', status: 'present' }, { id: 's2', date: '2026-10-08', status: 'present' }]
-                }
-            ];
-            window.exams = JSON.parse(localStorage.getItem('student_exams')) || [
-                {
-                    id: 'ex-1', title: 'Proiect Rețele Neurale', subject: 'Inteligență Artificială', type: 'Proiect',
-                    weight: 40, date: '2026-10-25', time: '23:59', status: 'in_progress'
-                }
-            ];
+            window.events = JSON.parse(localStorage.getItem('student_calendar_events')) || {};
+            window.weeklySchedule = JSON.parse(localStorage.getItem('student_weekly_schedule')) || [];
+            window.subjects = JSON.parse(localStorage.getItem('student_subjects')) || [];
+            window.exams = JSON.parse(localStorage.getItem('student_exams')) || [];
         }
 
         function persistData() {
             localStorage.setItem('student_calendar_events', JSON.stringify(window.events));
+            localStorage.setItem('student_weekly_schedule', JSON.stringify(window.weeklySchedule));
             localStorage.setItem('student_subjects', JSON.stringify(window.subjects));
             localStorage.setItem('student_exams', JSON.stringify(window.exams));
             if (currentUser) {
@@ -672,12 +664,12 @@
         window.openAccountModal = function() {
             const modal = document.getElementById('account-modal');
             if (modal) modal.classList.remove('hidden');
-        }
+        };
 
         window.closeAccountModal = function() {
             const modal = document.getElementById('account-modal');
             if (modal) modal.classList.add('hidden');
-        }
+        };
 
         window.switchTab = function(tabName) {
             ['calendar', 'schedule', 'attendance', 'exams'].forEach(t => {
@@ -713,16 +705,14 @@
                 toast.classList.add('translate-y-2', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
-        }
+        };
 
-        // ================= CALENDAR MODULE =================
-        let weeklySchedule = JSON.parse(localStorage.getItem('student_weekly_schedule')) || [];
-
+        // ================= SCHEDULE & NOTIFICATIONS =================
         function getCombinedEventsForDate(dateStr) {
-            const manual = (events[dateStr] || []).map((ev, idx) => ({ ...ev, isRecurring: false, originalIdx: idx }));
+            const manual = (window.events[dateStr] || []).map((ev, idx) => ({ ...ev, isRecurring: false, originalIdx: idx }));
             const [y, m, d] = dateStr.split('-').map(Number);
             const dayOfWeek = new Date(y, m - 1, d).getDay();
-            const recurring = weeklySchedule
+            const recurring = (window.weeklySchedule || [])
                 .filter(item => Number(item.day) === dayOfWeek)
                 .map(item => ({
                     title: `${item.title}${item.room ? ` (${item.room})` : ''}`,
@@ -765,7 +755,7 @@
             if (!grid) return;
             grid.innerHTML = '';
             [{ id: 1, name: 'Luni' }, { id: 2, name: 'Marți' }, { id: 3, name: 'Miercuri' }, { id: 4, name: 'Joi' }, { id: 5, name: 'Vineri' }, { id: 6, name: 'Sâmbătă' }].forEach(day => {
-                const dayClasses = weeklySchedule.filter(s => Number(s.day) === day.id).sort((a, b) => a.time.localeCompare(b.time));
+                const dayClasses = (window.weeklySchedule || []).filter(s => Number(s.day) === day.id).sort((a, b) => a.time.localeCompare(b.time));
                 const card = document.createElement('div');
                 card.className = 'bg-white rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100 p-5';
                 card.innerHTML = `
@@ -790,41 +780,56 @@
         }
 
         window.deleteScheduleItem = function(id) {
-            weeklySchedule = weeklySchedule.filter(s => s.id !== id);
-            localStorage.setItem('student_weekly_schedule', JSON.stringify(weeklySchedule));
-            if (typeof syncToCloud === 'function') syncToCloud();
+            window.weeklySchedule = window.weeklySchedule.filter(s => s.id !== id);
+            persistData();
             renderScheduleModule();
             renderCalendar();
             showToast("Curs șters din orar!");
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const sf = document.getElementById('schedule-form');
-            if (sf) sf.addEventListener('submit', (e) => {
-                e.preventDefault();
-                weeklySchedule.push({
-                    id: 'sch-' + Date.now(),
-                    title: document.getElementById('sched-title').value.trim(),
-                    day: parseInt(document.getElementById('sched-day').value),
-                    time: document.getElementById('sched-time').value,
-                    room: document.getElementById('sched-room').value.trim(),
-                    color: document.getElementById('sched-color').value
-                });
-                localStorage.setItem('student_weekly_schedule', JSON.stringify(weeklySchedule));
-                if (typeof syncToCloud === 'function') syncToCloud();
-                document.getElementById('sched-title').value = '';
-                document.getElementById('sched-room').value = '';
-                renderScheduleModule();
-                renderCalendar();
-                showToast("Curs adăugat în Orar și Calendar!");
-            });
-            renderScheduleModule();
-        });
+        // ================= CALENDAR MODULE =================
+        function renderCalendar() {
+            const year = window.currentDate.getFullYear();
+            const month = window.currentDate.getMonth();
+            const monthYearEl = document.getElementById('current-month-year');
+            if (monthYearEl) monthYearEl.textContent = `${monthsRo[month]} ${year}`;
+
+            const grid = document.getElementById('calendar-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const adjustedFirstDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+            const totalDays = new Date(year, month + 1, 0).getDate();
+            const prevTotalDays = new Date(year, month, 0).getDate();
+            const todayStr = formatDateKey(new Date());
+
+            for (let i = adjustedFirstDay - 1; i >= 0; i--) {
+                const dayNum = prevTotalDays - i;
+                const pM = month === 0 ? 11 : month - 1;
+                const pY = month === 0 ? year - 1 : year;
+                grid.appendChild(createDayCell(dayNum, `${pY}-${String(pM + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`, true));
+            }
+
+            for (let i = 1; i <= totalDays; i++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                grid.appendChild(createDayCell(i, dateStr, false, dateStr === todayStr, dateStr === window.selectedDateStr));
+            }
+
+            const totalCellsSoFar = adjustedFirstDay + totalDays;
+            const remainingCells = totalCellsSoFar <= 35 ? 35 - totalCellsSoFar : 42 - totalCellsSoFar;
+            for (let i = 1; i <= remainingCells; i++) {
+                const nM = month === 11 ? 0 : month + 1;
+                const nY = month === 11 ? year + 1 : year;
+                grid.appendChild(createDayCell(i, `${nY}-${String(nM + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`, true));
+            }
+            updateSelectedDatePanel();
+        }
 
         function createDayCell(dayNum, dateStr, isMuted = false, isToday = false, isSelected = false) {
             const cell = document.createElement('div');
             cell.className = `min-h-[85px] p-2 rounded-2xl border transition-all duration-200 flex flex-col justify-between cursor-pointer ${isMuted ? 'bg-slate-50/50 border-slate-100 text-slate-400' : 'bg-white border-slate-100 hover:border-indigo-200 hover:shadow-md'} ${isSelected ? 'ring-2 ring-indigo-600 border-indigo-600 bg-indigo-50/30' : ''}`;
-            cell.onclick = () => { selectedDateStr = dateStr; renderCalendar(); };
+            cell.onclick = () => { window.selectedDateStr = dateStr; renderCalendar(); };
 
             const topDiv = document.createElement('div');
             topDiv.className = 'flex items-center justify-between';
@@ -850,12 +855,12 @@
         }
 
         function updateSelectedDatePanel() {
-            const [y, m, d] = selectedDateStr.split('-').map(Number);
+            const [y, m, d] = window.selectedDateStr.split('-').map(Number);
             const dateTitleEl = document.getElementById('selected-date-title');
             if (dateTitleEl) {
                 dateTitleEl.textContent = `${daysRo[new Date(y, m - 1, d).getDay()]}, ${d} ${monthsRo[m - 1]} ${y}`;
             }
-            const dayEvents = getCombinedEventsForDate(selectedDateStr);
+            const dayEvents = getCombinedEventsForDate(window.selectedDateStr);
             const countBadge = document.getElementById('event-count-badge');
             if (countBadge) countBadge.textContent = `${dayEvents.length} evenimente`;
             
@@ -871,7 +876,7 @@
                 item.className = 'p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-2';
                 const actionBtn = ev.isRecurring
                     ? `<span class="text-[10px] px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-md font-semibold">Orar</span>`
-                    : `<button onclick="deleteEvent('${selectedDateStr}', ${ev.originalIdx})" class="text-slate-400 hover:text-rose-600 p-1"><i class="fa-solid fa-trash-can text-xs"></i></button>`;
+                    : `<button onclick="deleteEvent('${window.selectedDateStr}', ${ev.originalIdx})" class="text-slate-400 hover:text-rose-600 p-1"><i class="fa-solid fa-trash-can text-xs"></i></button>`;
                 item.innerHTML = `
                     <div class="flex items-center gap-2.5 truncate">
                         <div class="w-2.5 h-2.5 rounded-full ${ev.color || 'bg-indigo-500'} flex-shrink-0"></div>
@@ -887,11 +892,10 @@
         }
 
         window.deleteEvent = function(dateKey, index) {
-            if (events[dateKey]) {
-                events[dateKey].splice(index, 1);
-                if (events[dateKey].length === 0) delete events[dateKey];
-                localStorage.setItem('student_calendar_events', JSON.stringify(events));
-                if (typeof syncToCloud === 'function') syncToCloud();
+            if (window.events[dateKey]) {
+                window.events[dateKey].splice(index, 1);
+                if (window.events[dateKey].length === 0) delete window.events[dateKey];
+                persistData();
                 renderCalendar();
                 showToast("Eveniment șters!");
             }
@@ -1112,6 +1116,7 @@
             const nextMonthBtn = document.getElementById('next-month');
             const todayBtn = document.getElementById('today-btn');
             const eventForm = document.getElementById('event-form');
+            const scheduleForm = document.getElementById('schedule-form');
             const subjectForm = document.getElementById('subject-form');
             const sessionForm = document.getElementById('session-form');
             const examForm = document.getElementById('exam-form');
@@ -1134,6 +1139,26 @@
                     document.getElementById('event-time').value = '';
                     renderCalendar();
                     showToast("Eveniment adăugat!");
+                });
+            }
+
+            if (scheduleForm) {
+                scheduleForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const title = document.getElementById('sched-title').value.trim();
+                    const day = parseInt(document.getElementById('sched-day').value);
+                    const time = document.getElementById('sched-time').value;
+                    const room = document.getElementById('sched-room').value.trim();
+                    const color = document.getElementById('sched-color').value;
+                    if (!title || !time) return;
+                    if (!window.weeklySchedule) window.weeklySchedule = [];
+                    window.weeklySchedule.push({ id: 'sch-' + Date.now(), title, day, time, room, color });
+                    persistData();
+                    document.getElementById('sched-title').value = '';
+                    document.getElementById('sched-room').value = '';
+                    renderScheduleModule();
+                    renderCalendar();
+                    showToast("Curs adăugat în Orar și Calendar!");
                 });
             }
 
@@ -1203,8 +1228,3 @@
     </script>
 </body>
 </html>
-```eof
-
-Am creat aplicația completă într-un singur fișier care include acum sistemul de conturi cu **Email și Parolă**. 
-
-Tot ce trebuie să faci este să **copiezi tot codul de mai sus**, să înlocuiești complet conținutul fișierului tău `index.html` (pe care l-ai urcat pe GitHub sau Netlify), iar acum vei avea butonul de **Cont & Cloud Sync** în dreapta sus unde poți crea un cont nou sau te poți autentifica pentru a-ți accesa datele de oriunde!
